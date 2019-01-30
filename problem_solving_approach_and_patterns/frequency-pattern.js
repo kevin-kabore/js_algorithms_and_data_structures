@@ -96,13 +96,15 @@ function validAnagramRefactored(str1, str2) {
   if (str1.length !== str2.length) {
     return false;
   }
-  // freq assignments
+
   let frequency = {};
   for (let char of str1) {
+  	// if char exists increment otherwise set to 1
     frequency[char] ? (frequency[char] += 1) : (frequency[char] = 1);
   }
   for (let char of str2) {
     if (!frequency[char]) {
+    	// can't find letter or letter is zero then not an anagram
       return false;
     } else {
       frequency[char] -= 1;
