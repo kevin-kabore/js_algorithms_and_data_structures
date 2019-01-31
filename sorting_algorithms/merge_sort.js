@@ -60,10 +60,10 @@ const mergeSort = (arr) => {
 	if (arr.length <= 1) return arr;
 
 	let mid = Math.floor((arr.length) / 2);
-	let left = arr.slice(0, mid); // slice not inclusive of end arg
-	let right = arr.slice(mid); // mid to end
+	let leftArr = arr.slice(0, mid); // slice not inclusive of end arg
+	let rightArr = arr.slice(mid); // mid to end
 	
-	return merge(mergeSort(arr1), mergeSort(arr2));
+	return merge(mergeSort(leftArr), mergeSort(rightArr));
 
 	// Also an option
 	// let left = mergeSort(arr.slice(0, mid)); // slice not inclusive of end arg
