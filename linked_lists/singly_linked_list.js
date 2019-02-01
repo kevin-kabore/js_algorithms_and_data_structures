@@ -53,7 +53,7 @@
 *				- set newNode.next to prevNode's next
 *				- increment length
 *			- return true
-*		Delete(index): returns node at given index
+*		Remove(index): returns node at given index
 *			- if index < 0 || >= list length; undefined / null
 *			- if index = length-1; pop
 *			- if index = 0; shift()
@@ -61,6 +61,15 @@
 *			- decrement length
 *			- return node removed
 *
+*		Reverse(): returns list reversed, without creating a new list
+*			- Swap head and tail
+*			- create var next, prev
+*			- Create var node = head
+*			- Loop through
+*				- set next var to next prop on node
+*				- set next prop of node to be prev
+*				- set prev to be val of node var
+*				- set node var to value of next var
 */	
 
 class Node {
@@ -178,15 +187,71 @@ class SinglyLinkedList {
 
 		return true;
 	}
+
+	remove(index) {
+		if (index < 0 || index >= this.length ) return null;
+		if (index === 0) return this.shift();
+		if (index === this.length -1) return this.pop();
+
+		var prev = this.get(index-1);
+		var removed = prev.next;
+		prev.next = removed.next;
+		this.length--;
+
+		return removed;
+	}
+
+	print() {
+		var arr = [],
+			current = this.head;
+
+			while(current) {
+				arr.push(current.val);
+				current = current.next
+			}
+			console.log(arr);
+	}
+	reverse() {
+		var node = this.head;
+		this.head = this.tail;
+		this.tail = node;
+
+		var	next = node.next;
+		var	prev = null;
+
+
+		for (var i = 0; i < this.length; i++) {
+			next = node.next; // get next node
+			node.next = prev; // point current node to prev
+			prev = node; // set prev to current node
+			node = next; // increment new node
+		}
+
+		return this;
+	}
 }
 
+/*
+- Swap head and tail
+*			- create var next, prev
+*			- Create var node = head
+*			- Loop through
+*				- set next var to next prop on node
+*				- set next prop of node to be prev
+*				- set prev to be val of node var
+*				- set node var to value of next var
+*/
+
 var list = new SinglyLinkedList();
-list.push('Hello');
-list.push('there!');
-list.push(21);
-list.push('Goodbye');
-list.pop(); // goodbye
-list.shift(); // hello
+list.push(0);
+list.push(1);
+list.push(2);
+list.push(3);
+list.push(4);
+list.pop(); // 4
+list.shift(); // 0
 list.unshift('1st!') // head = first
-list.get(2) // 21
-list.set(2, 'Not 21');
+list.get(2) // 2
+list.set(2, 'Not 2');
+list.insert(4, 'last');
+list.remove(0) //0
