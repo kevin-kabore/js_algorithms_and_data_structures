@@ -6,10 +6,16 @@
 			If we take min element every time
 			or if array is always sorted
 			pick random item every time to mitigate
+		Randomization: O(n)
 		Average: O(nlogn)
 		Best: Omega(nlogn)
 			O(logn) decompositions
 			O(n) comparisons
+	- Improve QuickSort:
+		Randomization: O(n)
+	- Quicksort preferred to merge sort:
+		- Sorts in place. Mergesort requires extra memory linear to number of elements to be sorted
+		- Has a small hidden constant
 	
 	Quicksort steps
 	- Select one element, the pivot point. Use pivot or partition function
@@ -61,7 +67,9 @@ quickSort([9,4,2,7,3,1,6,8,17,-20]);
 function pivot(arr, start = 0, end = arr.length - 1) {
 
 	// randomized pivot
-	// var pivot =  Math.floor(Math.random() * (end - start + 1) + start);
+	var pivotIdx = Math.floor(Math.random() * (end - start + 1) + start);
+	swap(arr, pivotIdx, start);
+
 	var pivot = arr[start],
 		swapIdx = start;
 

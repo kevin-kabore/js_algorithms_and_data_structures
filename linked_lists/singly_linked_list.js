@@ -1,4 +1,13 @@
 /* 
+*	Method complexities:
+*	- Insertion: O(1) 
+*		- better than arr
+*	- Removal: O(1)-from front or O(n)-if have to remove last item. Must find item n-1 
+*		- better than arrays: O(n)
+*	- Search: O(n) 
+*		- worse than arrays
+*	- Access: O(n)
+*		- worse than arrays 
 *
 * 	Lists advantage vs arrays
 *   - Faster Insertion and Deletion
