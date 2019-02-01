@@ -59,6 +59,9 @@ quickSort([9,4,2,7,3,1,6,8,17,-20]);
 
 
 function pivot(arr, start = 0, end = arr.length - 1) {
+
+	// randomized pivot
+	// var pivot =  Math.floor(Math.random() * (end - start + 1) + start);
 	var pivot = arr[start],
 		swapIdx = start;
 
