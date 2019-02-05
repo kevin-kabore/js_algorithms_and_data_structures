@@ -17,7 +17,7 @@
 *	- Random access is not allowed, must traverse n items
 *
 *	List Methods
-*		Push(val)
+*		Push(val) // O(1)
 *			- Create new node using value
 *			- If head = null
 *				head = node, tail = node
