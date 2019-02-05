@@ -4,7 +4,9 @@
 *
 *		Method Complexities
 *		- Insertion: O(1)
-*
+*		- Removal: O(1) if removing first, last, or second to last because of double join. Otherwise O(n)
+*		- Searching: O(n/2) => O(n)
+*		- Access: O(n)
 *
 *
 *
@@ -42,10 +44,24 @@
 *					- newNode.next = head
 *					- head = newNode
 *				- Increment length; return list
-*			Get(index)
-*
-*
-*
+*			Get(index) O(n/2) = O(n)
+*				- If index < 0 || >== length return null
+*				- if index <== length / 2
+*					- loop through list from head to middle; return node when found
+*				- if head > length /2
+*					- loop from tail downto mid; return node when found
+*			Set(index, val) O(n)
+*				- Var node = get(index)
+*					- If get valid, set val of node to new val; return true
+*					- else return false
+*			Remove(index) O(n), O(1) if first or last or second to last.
+*				- If index < 0 || >= length; return undefined
+*				- If index = 0; shift()
+*				- If index = length.1; pop()
+*				- get(index)
+*					- update next and prev props around node
+*					- next and prev on node to null
+*					- Decrement length; return node
 *
 */
 
@@ -70,7 +86,7 @@ class DoublyLinkedList {
 			this.tail = newNode;
 		} else {
 			this.tail.next = newNode;
-			newNode.prev = tail;
+			newNode.prev = this.tail;
 			this.tail = newNode;
 		}
 		this.length++;
@@ -119,5 +135,71 @@ class DoublyLinkedList {
 		this.length++;
 		return this;
 	}
+	get(index) {
+		if (index < 0 || index >= this.length) return null;
+
+		var mid = Math.floor(this.length  / 2);
+		if (index <= mid) {
+			var count = 0;
+			var currentNode = this.head;
+			while (count !== index) {
+				currentNode = currentNode.next;
+				count++;
+			}
+		} else {
+			var count = this.length - 1;
+			var currentNode = this.tail;
+			while (count !== index) {
+				currentNode = currentNode.prev;
+				count--;
+			}
+		}
+		return currentNode;
+	}
+	set(index, val) {
+		var getNode = this.get(index);
+		if (getNod !== null ) {
+			getNode.val = val;
+			return true;
+		}
+		return false;
+	}
+	insert(index, val) {
+		if (index < 0 || index > this.length) return false;
+		if (index === 0) return !!this.unshift(val); // make return a bool		
+		if (index === this.length) return !!this.push(val); // make return a bool
+
+		var newNode = new Node(val);
+		var prevNode = this.get(index -1);
+
+		prevNode.next.prev = newNode, newNode.next = prevNode.next;
+
+		prevNode.next = newNode, newNode.prev = prevNode;
+
+		this.length++;
+		return true;
+	}
+	delete(index) {
+		if (index < 0 || index >= this.length) return undefined;
+		if (index === 0) return this.shift();
+		if (index === this.length - 1) return this.pop();
+
+		var foundNode = this.get(index);
+
+		// Point prevNode to foundNode.next, and nextNode to foundNode.prev
+		foundNode.prev.next = foundNode.next, foundNode.next.prev = foundNode.prev;
+
+		foundNode.next = null, foundNode.prev = null;
+
+		this.length--;
+		return foundNode;
+	}
 }
 
+
+var list = new DoublyLinkedList();
+list.push('A');
+list.push('B');
+list.push('C');
+list.push('D');
+list.push('F');
