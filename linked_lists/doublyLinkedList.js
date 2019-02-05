@@ -117,9 +117,10 @@ class DoublyLinkedList {
 		} else {
 			this.head = oldHead.next;
 			this.head.prev = null;
-			oldHead.next = null;
 		}
+		oldHead.next = null;
 		this.length--;
+
 		return oldHead;
 	}
 	unshift(val) {
@@ -158,7 +159,7 @@ class DoublyLinkedList {
 	}
 	set(index, val) {
 		var getNode = this.get(index);
-		if (getNod !== null ) {
+		if (getNode !== null ) {
 			getNode.val = val;
 			return true;
 		}
