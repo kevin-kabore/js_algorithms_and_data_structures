@@ -30,7 +30,7 @@ class Queue {
 	}
 }
 
-class Node = {
+class Node {
 	constructor(val) {
 		this.val = val;
 		this.next;
@@ -46,7 +46,8 @@ class Node = {
 		}
 		return ++this.size;
 	}
-	dequeue() { // remove from beginning (first item in)
+	dequeue() { 
+		// remove from beginning (first item in)
 		// edge cases: size = 0; size = 1
 		if (!this.first) return null;
 

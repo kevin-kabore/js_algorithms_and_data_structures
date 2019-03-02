@@ -1,13 +1,13 @@
 /*
 
-	Depth First Search (BFS)
+	Depth First Search (DFS)
 	- VERTICAL Tree traversal, down first then horizontally
 	- Best on Wide trees, not tall trees. 
 		- Less space complexity
 		- Not heavy on call stack if not Tall
 	- 3 different ways
 		- PreOrder: Visit node, then down all of left, then down all of right
-			- Useful if want to re-construct the tree from output
+			- Useful if want to re-construct the tree from output. Root is first
 		- PostOrder: Visit down all left of node, then all right of node, then node
 		- InOrder: Visit down all left of node, then node, then all of right
 			- Useful if want order on BST

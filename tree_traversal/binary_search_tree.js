@@ -23,7 +23,7 @@ class BST {
 	}
 
 	insert(value) { // iterative
-		var newNode = new Node(val);
+		var newNode = new Node(value);
 		if (!this.root) {
 			this.root = newNode;
 			return this;
