@@ -1,6 +1,17 @@
 /*
 	Hash Tables
+	- Collection of key-value pairs
+	- Can find values quickly given a key
+	- Can add new key-values quickly 
+	- Work by storing data in large array, and work by hashing keys into indeces
+	- Good hash function should be O(1), distribute uniformly, and be deterministic
+	- Collisions can be avoided with separate chaining or linear probing
 
+	Method Complexities depending on hash function
+	- Insert: Avg = O(1) // O(n) with bad hash function
+	- Deletion: Avg = O(1) // O(n) with bad hash function
+	- Access: Avg = O(1) // O(n) with bad hash function
+	- Searching: Key = O(1) avg. Value = O(n)
 	Set
 	- Accepts key and value
 	- Hashes key
