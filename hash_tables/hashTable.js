@@ -11,6 +11,12 @@
 	- Hashes key
 	- Retrieves key/value from hash table
 	- If no key, returns undefined
+
+	Keys
+	- Loops thorugh the hash table array and returns an array of keys
+
+	Values
+	- Loops thorugh the hash table array and returns an array of values
 */
 
 class HashTable {
@@ -51,5 +57,33 @@ class HashTable {
 		}
 
 		return undefined;
+	}
+
+	keys() {
+		let keys = [];
+		for (let i = 0; i < this.keyMap.length; i++) {
+			if (this.keyMap[i]) {
+				for (let j = 0; j < this.keyMap[i].length; j++) {
+					if(!keys.includes(this.keyMap[i][j][0])) {
+						keys.push(this.keyMap[i][j][0]);	
+					} 
+				}	
+			}
+		}
+		return keys;
+	}
+
+	values() {
+		let values = [];
+		for (let i = 0; i < this.keyMap.length; i++) {
+			if (this.keyMap[i]) {
+				for (let j = 0; j < this.keyMap[i].length; j++) {
+					if(!values.includes(this.keyMap[i][j][1])){
+						values.push(this.keyMap[i][j][0]);	
+					} 
+				}	
+			}
+		}
+		return values;
 	}
 }
