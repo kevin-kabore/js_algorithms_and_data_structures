@@ -47,6 +47,25 @@
 	- RemoveEdge(vertex1, vertex2)
 		- Reassign key of vertex1 to be an array that does not contain vertex2
 		- Reassign key of vertex2 to be an array that does not contain vertex1
+	- RemoveVertex(vertex)
+		- Loop as long as there are any vertices in the adjacency list for that vertex
+		- Inside loop, call removeEdge function with the vertex we are removing and any values
+		in the adjacency list for that vertex
+		- delete the key in the adjacency list for that vertex
+	- depthFirstRecursive(vertex) 
+		- Create a list to store the end result, to be returned at the very end
+		- Create an object to store visited vertices
+		- Create helper function which accepts a vertex
+			- Base
+				If vertex is empty: return 
+			- Recursive Case
+				Add vertex to visited object and push to results list/array
+				Mark vertex as visited
+				Loop over all values in the adjacencyList for that vertex:
+					if value/vertex is not visited:
+						recursiveliy call DFS on value/vertex
+		- Invoke helper function with starting vertex
+		- Return result array
 */
 class Graph {
 	constructor() {
@@ -69,7 +88,72 @@ class Graph {
 		// this.adjacencyList[vertex1] = this.adjacencyList[vertex1].filter(function(v) {
 		// 	return v !== vertex2;
 		// });
+		// keep everything in the array that is not vertex2 and vice versa
 		this.adjacencyList[vertex1] = this.adjacencyList[vertex1].filter(v => v !== vertex2);
 		this.adjacencyList[vertex2] = this.adjacencyList[vertex2].filter(v => v !== vertex1);
 	}
+
+	removeVertex(vertex) {
+		while(this.adjacencyList[vertex].length) {
+			const adjacentVertex = this.adjacencyList[vertex].pop();
+			this.removeEdge(vertex, adjacentVertex);
+		}
+		delete this.adjacencyList[vertex];
+
+		// Similar solution
+		// this.adjacencyList[vertex].forEach(adjacentVertex => this.removeEdge(vertex, adjacentVertex));
+		// delete this.adjacencyList[vertex];
+	}
+
+	depthFirstRecursive(start){
+		var results = [],
+			visited = {},
+			adjacencyList = this.adjacencyList;
+		
+		(function DFS(vertex) {
+			if (!vertex) return;
+			
+			visited[vertex] = true;
+			results.push(vertex);
+			adjacencyList[vertex].forEach((v) => {
+				if (!visited[v]) DFS(v);
+			});
+		}(start));
+		
+		// var that = this;
+		// (function DFS(vertex) {
+		// 	if (!that.adjacencyList[vertex].length) return;
+
+		// 	if (!visited[vertex]) {
+		// 		visited[vertex] = true;
+		// 		results.push(vertex);
+		// 		that.adjacencyList[vertex].forEach((v) => {
+		// 			if (!visited[v]) DFS(v);
+		// 		});
+		// 	} 
+		// }(vertex, that));
+
+		
+		// DFS(vertex);
+		// console.log(visited);
+		return results;
+	}
 }
+
+var g = new Graph();
+g.addVertex("A");
+g.addVertex("B");
+g.addVertex("C");
+g.addVertex("D");
+g.addVertex("E");
+g.addVertex("F");
+
+g.addEdge("A","B");
+g.addEdge("A","C");
+g.addEdge("B","D");
+g.addEdge("C","E");
+g.addEdge("D","E");
+g.addEdge("D","F");
+g.addEdge("E","F");
+
+g.depthFirstRecursive("A");
