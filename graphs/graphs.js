@@ -66,6 +66,14 @@
 						recursiveliy call DFS on value/vertex
 		- Invoke helper function with starting vertex
 		- Return result array
+	- depthFirstIterative(start)
+		- let S be a stack
+		- S.push(start)
+		- While S is not empty
+			vertex = S.pop()
+			if vertex is not visited
+				visit, add to result list, add to visited list
+				for each neighbor, N do S.push(N)
 */
 class Graph {
 	constructor() {
@@ -138,6 +146,29 @@ class Graph {
 		// console.log(visited);
 		return results;
 	}
+
+	depthFirstIterative(start) {
+		var stack = [start],
+			result = [],
+			visited = {},
+			currentVertex;
+
+		visited[start] = true;
+
+		while (stack.length) {
+			currentVertex = stack.pop();
+			result.push(currentVertex);
+
+			this.adjacencyList[currentVertex].forEach(v => {
+				if (!visited[v]) {
+					visited[v] = true;
+					stack.push(v)	
+				}
+			});
+		}
+
+		return result;
+	}
 }
 
 var g = new Graph();
@@ -157,3 +188,4 @@ g.addEdge("D","F");
 g.addEdge("E","F");
 
 g.depthFirstRecursive("A");
+g.depthFirstIterative("A");
