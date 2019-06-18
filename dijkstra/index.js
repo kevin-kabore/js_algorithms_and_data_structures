@@ -17,3 +17,23 @@ class WeightedGraph {
     });
   }
 }
+
+class PriorityQueue {
+  constructor() {
+    this.values = [];
+  }
+  enqueue(val, priority) {
+    this.values.push({
+      val,
+      priority
+    });
+    this.sort();
+  }
+
+  dequeue(val) {
+    return this.values.shift(); // remove from beginning
+  }
+  sort() {
+    this.values.sort((a, b) => a.priority - b.priority);
+  }
+}
