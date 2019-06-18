@@ -38,25 +38,25 @@ class WeightedGraph {
     });
   }
   /*
-                    Dijkstra's Algorithm: Shortest path from vertex A to B in a graph. returns array with nodes in order
-                    - Should accept a starting and ending vertex
-                    - Create an object (distances) and set each key to be every vertex in the adjacencyList
-                      - with a priority of inifinity, except for starting index which will be 0
-                    - After setting a value in the distances object, 
-                      add each vertex with a priority of inifinity to the priority queue, 
-                      except the starting vertex, which will have priority 0 because that's where we begin
-                    - Create another object called previous and set each key to be every vertex in the adjacencyList
-                      with a value of null
-                    - Start looping as long as there is anything in the priority queue
-                      - dequeue a vertex from the priority queue
-                      - if that vertex is the samme as the ending vertex - done!
-                      - Otherwise: loop through each value in the adjacencyList at that vertex
-                        - Calculate the distance to that vertex from the starting vertex
-                        - if the distance is less than what is currently stored in our distances object
-                          - update the distances object with new lower distances
-                          - update the previous object to contain that vertex
-                          - enqueue the vertex with the total distance from the start node
-                   */
+                      Dijkstra's Algorithm: Shortest path from vertex A to B in a graph. returns array with nodes in order
+                      - Should accept a starting and ending vertex
+                      - Create an object (distances) and set each key to be every vertex in the adjacencyList
+                        - with a priority of inifinity, except for starting index which will be 0
+                      - After setting a value in the distances object, 
+                        add each vertex with a priority of inifinity to the priority queue, 
+                        except the starting vertex, which will have priority 0 because that's where we begin
+                      - Create another object called previous and set each key to be every vertex in the adjacencyList
+                        with a value of null
+                      - Start looping as long as there is anything in the priority queue
+                        - dequeue a vertex from the priority queue
+                        - if that vertex is the samme as the ending vertex - done!
+                        - Otherwise: loop through each value in the adjacencyList at that vertex
+                          - Calculate the distance to that vertex from the starting vertex
+                          - if the distance is less than what is currently stored in our distances object
+                            - update the distances object with new lower distances
+                            - update the previous object to contain that vertex
+                            - enqueue the vertex with the total distance from the start node
+                     */
   // start and finish are verteces
   shortestPath(start, finish) {
     const nodes = new PriorityQueue();
@@ -118,22 +118,90 @@ class WeightedGraph {
   }
 }
 
+class Node {
+  constructor(val, priority) {
+    this.val = val;
+    this.priority = priority;
+  }
+}
+
 class PriorityQueue {
   constructor() {
     this.values = [];
   }
-  enqueue(val, priority) {
-    this.values.push({
-      val,
-      priority
-    });
-    this.sort();
+
+  enqueue(val, p) {
+    let node = new Node(val, p);
+    this.values.push(node);
+    this.bubbleUp();
   }
 
-  dequeue(val) {
-    return this.values.shift(); // remove from beginning
+  dequeue() {
+    let min = this.values[0],
+      last = this.values.pop();
+
+    if (this.values.length > 0) {
+      this.values[0] = last;
+      this.sinkDown();
+    }
+
+    return min;
   }
-  sort() {
-    this.values.sort((a, b) => a.priority - b.priority);
+
+  bubbleUp() {
+    let idx = this.values.length - 1,
+      el = this.values[idx];
+
+    while (idx > 0) {
+      let parentIdx = Math.floor((idx - 1) / 2),
+        parent = this.values[parentIdx];
+
+      if (el.priority >= parent.priority) break;
+
+      this.values[parentIdx] = el;
+      this.values[idx] = parent;
+      idx = parentIdx;
+    }
+  }
+
+  sinkDown() {
+    let parent = this.values[0],
+      parentIdx = 0,
+      length = this.values.length;
+
+    while (true) {
+      let leftIdx = 2 * parentIdx + 1,
+        rightIdx = 2 * parentIdx + 2,
+        rightEl,
+        leftEl,
+        swap = null,
+        swapIdx = null;
+
+      if (leftIdx < length) {
+        leftEl = this.values[leftIdx];
+        if (leftEl.priority < parent.priority) {
+          swap = leftEl;
+          swapIdx = leftIdx;
+        }
+      }
+      if (rightIdx < length) {
+        rightEl = this.values[rightIdx];
+        if (
+          (swap === null && rightEl.priority < parent.priority) ||
+          (swap !== null && rightEl.priority < parent.priority)
+        ) {
+          swap = rightEl;
+          swapIdx = rightIdx;
+        }
+      }
+
+      if (swap === null) break;
+
+      this.values[parentIdx] = swap;
+      this.values[swapIdx] = parent;
+
+      parent = swap;
+      parentIdx = swapIdx;
+    }
   }
 }
