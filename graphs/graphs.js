@@ -52,7 +52,8 @@
 		- Inside loop, call removeEdge function with the vertex we are removing and any values
 		in the adjacency list for that vertex
 		- delete the key in the adjacency list for that vertex
-	- depthFirstRecursive(vertex) 
+	- depthFirstRecursive(vertex): Visit neighbors of neighbor first, then backtrack
+		- First in, last out
 		- Create a list to store the end result, to be returned at the very end
 		- Create an object to store visited vertices
 		- Create helper function which accepts a vertex
@@ -74,118 +75,163 @@
 			if vertex is not visited
 				visit, add to result list, add to visited list
 				for each neighbor, N do S.push(N)
+	- BreadthFirst(startingVertex) Visit all neighbors for a given node first, then their neighbors
+		- First In First Out
+		- create a queue (array) and place the starting vertex in it
+		- Created an array to store nodes visited
+		- Create an object to to store nodes visited
+		- Mark the starting vertex as visited
+		- Loop as long as there is anything in the queue
+		- Remove the first vertex from the queue and push it into the array that stores nodes visited
+		- Loop over each vertex in adjacency list for the vertex you are Visiting
+		- If it is not inside the object that stores nodes visited, mark it as visited and enqueue that vertex
+		- Return array of nodes visited
 */
 class Graph {
-	constructor() {
-		this.adjacencyList = {};
-	}
+  constructor() {
+    this.adjacencyList = {};
+  }
 
-	addVertex(vertex) {
-		if (!this.adjacencyList[vertex]) this.adjacencyList[vertex] = [];
-	}
+  addVertex(vertex) {
+    if (!this.adjacencyList[vertex]) this.adjacencyList[vertex] = [];
+  }
 
-	addEdge(v1, v2) {
-		if (this.adjacencyList[v1] && this.adjacencyList[v2]) {
-			this.adjacencyList[v1].push(v2);
-			this.adjacencyList[v2].push(v1);
-		}
-	}
+  addEdge(v1, v2) {
+    if (this.adjacencyList[v1] && this.adjacencyList[v2]) {
+      this.adjacencyList[v1].push(v2);
+      this.adjacencyList[v2].push(v1);
+    }
+  }
 
-	removeEdge(vertex1, vertex2) {
-		
-		// this.adjacencyList[vertex1] = this.adjacencyList[vertex1].filter(function(v) {
-		// 	return v !== vertex2;
-		// });
-		// keep everything in the array that is not vertex2 and vice versa
-		this.adjacencyList[vertex1] = this.adjacencyList[vertex1].filter(v => v !== vertex2);
-		this.adjacencyList[vertex2] = this.adjacencyList[vertex2].filter(v => v !== vertex1);
-	}
+  removeEdge(vertex1, vertex2) {
+    // this.adjacencyList[vertex1] = this.adjacencyList[vertex1].filter(function(v) {
+    // 	return v !== vertex2;
+    // });
+    // keep everything in the array that is not vertex2 and vice versa
+    this.adjacencyList[vertex1] = this.adjacencyList[vertex1].filter(
+      v => v !== vertex2
+    );
+    this.adjacencyList[vertex2] = this.adjacencyList[vertex2].filter(
+      v => v !== vertex1
+    );
+  }
 
-	removeVertex(vertex) {
-		while(this.adjacencyList[vertex].length) {
-			const adjacentVertex = this.adjacencyList[vertex].pop();
-			this.removeEdge(vertex, adjacentVertex);
-		}
-		delete this.adjacencyList[vertex];
+  removeVertex(vertex) {
+    while (this.adjacencyList[vertex].length) {
+      const adjacentVertex = this.adjacencyList[vertex].pop();
+      this.removeEdge(vertex, adjacentVertex);
+    }
+    delete this.adjacencyList[vertex];
 
-		// Similar solution
-		// this.adjacencyList[vertex].forEach(adjacentVertex => this.removeEdge(vertex, adjacentVertex));
-		// delete this.adjacencyList[vertex];
-	}
+    // Similar solution
+    // this.adjacencyList[vertex].forEach(adjacentVertex => this.removeEdge(vertex, adjacentVertex));
+    // delete this.adjacencyList[vertex];
+  }
 
-	depthFirstRecursive(start){
-		var results = [],
-			visited = {},
-			adjacencyList = this.adjacencyList;
-		
-		(function DFS(vertex) {
-			if (!vertex) return;
-			
-			visited[vertex] = true;
-			results.push(vertex);
-			adjacencyList[vertex].forEach((v) => {
-				if (!visited[v]) DFS(v);
-			});
-		}(start));
-		
-		// var that = this;
-		// (function DFS(vertex) {
-		// 	if (!that.adjacencyList[vertex].length) return;
+  depthFirstRecursive(start) {
+    var results = [],
+      visited = {},
+      adjacencyList = this.adjacencyList;
 
-		// 	if (!visited[vertex]) {
-		// 		visited[vertex] = true;
-		// 		results.push(vertex);
-		// 		that.adjacencyList[vertex].forEach((v) => {
-		// 			if (!visited[v]) DFS(v);
-		// 		});
-		// 	} 
-		// }(vertex, that));
+    (function DFS(vertex) {
+      if (!vertex) return;
 
-		
-		// DFS(vertex);
-		// console.log(visited);
-		return results;
-	}
+      visited[vertex] = true;
+      results.push(vertex);
+      adjacencyList[vertex].forEach(v => {
+        if (!visited[v]) DFS(v);
+      });
+    })(start);
 
-	depthFirstIterative(start) {
-		var stack = [start],
-			result = [],
-			visited = {},
-			currentVertex;
+    // var that = this;
+    // (function DFS(vertex) {
+    // 	if (!that.adjacencyList[vertex].length) return;
 
-		visited[start] = true;
+    // 	if (!visited[vertex]) {
+    // 		visited[vertex] = true;
+    // 		results.push(vertex);
+    // 		that.adjacencyList[vertex].forEach((v) => {
+    // 			if (!visited[v]) DFS(v);
+    // 		});
+    // 	}
+    // }(vertex, that));
 
-		while (stack.length) {
-			currentVertex = stack.pop();
-			result.push(currentVertex);
+    // DFS(vertex);
+    // console.log(visited);
+    return results;
+  }
 
-			this.adjacencyList[currentVertex].forEach(v => {
-				if (!visited[v]) {
-					visited[v] = true;
-					stack.push(v)	
-				}
-			});
-		}
+  depthFirstIterative(start) {
+    var stack = [start],
+      result = [],
+      visited = {},
+      currentVertex;
 
-		return result;
-	}
+    visited[start] = true;
+
+    while (stack.length) {
+      currentVertex = stack.pop();
+      result.push(currentVertex);
+
+      this.adjacencyList[currentVertex].forEach(v => {
+        if (!visited[v]) {
+          visited[v] = true;
+          stack.push(v);
+        }
+      });
+    }
+
+    return result;
+  }
+
+  // - BreadthFirst(startingVertex) Visit all neighbors for a given node first, then their neighbors
+  // 	- create a queue (array) and place the starting vertex in it
+  // 	- Created an array to store nodes visited
+  // 	- Create an object to to store nodes visited
+  // 	- Mark the starting vertex as visited
+  // 	- Loop as long as there is anything in the queue
+  // 	- Remove the first vertex from the queue and push it into the array that stores nodes visited
+  // 	- Loop over each vertex in adjacency list for the vertex you are Visiting
+  // 	- If it is not inside the object that stores nodes visited, mark it as visited and enqueue that vertex
+  // 	- Return array of nodes visited
+  breadthFirstIterative(start) {
+    const queue = [start],
+      result = [],
+      visited = {};
+
+    visited[start] = true;
+
+    while (queue.length) {
+      let currentVertex = queue.shift();
+      result.push(currentVertex);
+
+      this.adjacencyList[currentVertex].forEach(vertex => {
+        if (!visited[vertex]) {
+          visited[vertex] = true;
+          queue.push(vertex);
+        }
+      });
+    }
+
+    return result;
+  }
 }
 
 var g = new Graph();
-g.addVertex("A");
-g.addVertex("B");
-g.addVertex("C");
-g.addVertex("D");
-g.addVertex("E");
-g.addVertex("F");
+g.addVertex('A');
+g.addVertex('B');
+g.addVertex('C');
+g.addVertex('D');
+g.addVertex('E');
+g.addVertex('F');
 
-g.addEdge("A","B");
-g.addEdge("A","C");
-g.addEdge("B","D");
-g.addEdge("C","E");
-g.addEdge("D","E");
-g.addEdge("D","F");
-g.addEdge("E","F");
+g.addEdge('A', 'B');
+g.addEdge('A', 'C');
+g.addEdge('B', 'D');
+g.addEdge('C', 'E');
+g.addEdge('D', 'E');
+g.addEdge('D', 'F');
+g.addEdge('E', 'F');
 
-g.depthFirstRecursive("A");
-g.depthFirstIterative("A");
+g.depthFirstRecursive('A');
+g.depthFirstIterative('A');
