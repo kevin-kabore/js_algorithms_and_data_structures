@@ -26,7 +26,7 @@ Object properties
 */
 
 let intructor = {
-	firstname: "Kelly".
+	firstname: "Kelly",
 	isIntructor: true,
 	favNumbers: [1,2,3,4]
 }

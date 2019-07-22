@@ -60,7 +60,7 @@ class Stack {
 		var firstNode = this.first;
 		// edge case if only one item
 		if (this.first === this.last) {
-			this.last = null; // set last to zero so next step sets first to null
+			this.last = null; // set last to null so next step sets first to null
 		}
 		this.first = this.first.next;
 		this.size--;

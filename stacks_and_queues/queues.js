@@ -53,7 +53,7 @@ class Node {
 
 		var node = this.first;
 		if (this.first === this.last) {
-			this.last = null;
+			this.last = null;   
 		}
 		this.first = this.first.next;
 		this.size--;

@@ -47,7 +47,7 @@
 
 */
 
-class MaxBinaryHeap {
+class MaxBinaryHeap { 
 	constructor() {
 		this.values = [];
 	}
@@ -56,14 +56,14 @@ class MaxBinaryHeap {
 		this.values.push(val);
 		this.bubble();
 	}
-
+      
 	extractMax() {
 		let max = this.values[0],
 			last = this.values.pop();
 
-		// Edge case if 1 item left, would remove last value and replace
+		// Edge case if 1 item left, we would have removed last value and replace
 		if (this.values.length > 0) {
-			this.values[0] = last;
+			this.values[0] = last; // reset max with last value of heap
 			this.sinkDown();
 		}
 
@@ -82,7 +82,7 @@ class MaxBinaryHeap {
 			if (parentEl >= elem) break;
 
 			this.values[parentIdx] = elem;
-			this.values[idx] = parentEl;
+			this.values[idx] = parentEl;;
 			idx = parentIdx;
 		}
 	}
@@ -98,9 +98,11 @@ class MaxBinaryHeap {
 				leftEl, rightEl,
 				swap = null;
 
-			if (leftIdx < length) {
-				leftEl = this.values[leftIdx];
-				swap = leftIdx;
+			if (leftIdx < length) { // if inbounds
+				leftEl = this.values[leftIdx];    
+				if (leftEl > parentEl) {
+					swap = leftIdx;
+				}
 			}
 			if (rightIdx < length) {
 				rightEl = this.values[rightIdx];

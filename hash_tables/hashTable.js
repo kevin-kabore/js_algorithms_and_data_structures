@@ -90,7 +90,7 @@ class HashTable {
 			if (this.keyMap[i]) {
 				for (let j = 0; j < this.keyMap[i].length; j++) {
 					if(!values.includes(this.keyMap[i][j][1])){
-						values.push(this.keyMap[i][j][0]);	
+						values.push(this.keyMap[i][j][1]);	
 					} 
 				}	
 			}
